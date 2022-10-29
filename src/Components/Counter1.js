@@ -16,20 +16,23 @@ class Count extends Component {
     }
 }
 
+const ErrorComponent = () => <div>{this.props.errrrreeerr}</div>
+
 export default class Counter1 extends Component {
     constructor(props) {
         console.log('Constructor');
         super(props)
         this.state = {
             count: 0,
-            seed: 0
+            seed: 0,
+            intializing: true
         }
 
         this.increaseCnt = () => { this.setState({ count: this.state.count + 1 }) }
         this.decreaseCnt = () => { this.setState({ count: this.state.count - 1 }) }
     }
 
-    // assign anything from props to the state
+    // allow to copy from props to the state
     static getDerivedStateFromProps(props, state) {
         if (props.seed && state.seed !== props.seed) {
             return {
@@ -40,9 +43,11 @@ export default class Counter1 extends Component {
         return null
     }
 
-
     componentDidMount() {
         console.log('Component Mounted')
+        setTimeout(()=> {
+            this.setState({intializing: false})
+        }, 2000)
         console.log('----------------------')
     }
 
@@ -55,20 +60,42 @@ export default class Counter1 extends Component {
         return true
     }
 
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('Get Snapshot Before Update');
+        return null
+    }
+
+    render() {
+        console.log('Render');
+        if (this.state.intializing) {
+            return <div>intializing...</div>
+        }
+
+        if (this.props.showErrorComponent && 
+            this.state.error) {
+                return <div>
+                    Encounterd an error: {this.state.error.message}
+                </div>
+            }
+
+        return (
+            <div>
+                <h2>Class based Component LifeCycle</h2>
+                <Count number={this.state.count} />
+                <button onClick={this.increaseCnt}>⬆️</button>
+                <button onClick={this.decreaseCnt}>⬇️</button>
+                {this.props.showErrorComponent ? <ErrorComponent /> : null }
+            </div>
+        )
+    }
+
     componentWillUnmount() {
         console.log('Component Unmounted')
         console.log('-------------------------');
     }
 
-    render() {
-        console.log('Render');
-        return (
-            <div>
-                <h2>Class based Component LifeCycle</h2>
-                <h1><Count number={this.state.count} /></h1>
-                <button onClick={this.increaseCnt}>⬆️</button>
-                <button onClick={this.decreaseCnt}>⬇️</button>
-            </div>
-        )
+    componentDidCatch(error, info) {
+        console.log('Component Did Catch');
+        this.setState({error, info})
     }
 }
