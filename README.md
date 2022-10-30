@@ -11,61 +11,74 @@ Documentation: [react-lifecycle-class-methods/](https://reactjs.org/docs/react-c
 
 *following methods are used:*
 
-#### componentDidMount() 
+### componentDidMount() 
 Used to render component for the **first time.**\
 **This is only called when the component is added to the DOM.**\
 This method is a good place to set up any subscriptions. If you do that, don’t forget to unsubscribe in componentWillUnmount().\
-You should not call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen. This guarantees that even though the render() will be called twice in this case, the user won’t see the intermediate state. .\
-If you want to call setState() then use condition or setTimeout().\
+You should not call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen. This guarantees that even though the render() will be called twice in this case, the user won’t see the intermediate state.\
+If you want to call setState() then use condition or setTimeout().
 
-#### constructor() 
+### constructor() 
 *If you don’t initialize state and you don’t bind methods, you don’t need to implement a constructor for your React component.*\
+
 It is called **before mouting** (before componentDidMount()).\
 React constructors are only used for two purposes -- 
 - Initializing local state by assigning an object to this.state.
-- Binding event handler methods to an instance.\
+- Binding event handler methods to an instance.
 
-#### render() 
-The render() function should be **pure**, meaning that it **does not modify component state**, it returns the same result each time it’s invoked, and it does not directly interact with the browser.\
+### render() 
+The render() function should be **pure**, meaning that it **does not modify component state**, it returns the same result each time it’s invoked, and it does not directly interact with the browser.
+
 If you need to interact with the browser, perform your work in componentDidMount() or the other lifecycle methods instead. Keeping render() pure makes components easier to think about.
 
-#### componentWillUnmount() 
-componentWillUnmount() is invoked immediately before a component is unmounted and destroyed. Perform any necessary cleanup in this method, such as invalidating timers, canceling network requests, or cleaning up any subscriptions that were created in componentDidMount().\
-*You should not call setState() in componentWillUnmount() because the component will never be re-rendered. Once a component instance is unmounted, it will never be mounted again.*\
+### componentWillUnmount() 
+componentWillUnmount() is invoked immediately before a component is unmounted and destroyed.\ Perform any necessary cleanup in this method, such as invalidating timers, canceling network requests, or cleaning up any subscriptions that were created in componentDidMount().
 
-#### componentDidUpdate() 
-*componentDidUpdate() is invoked immediately after updating occurs. This method is not called for the initial render.*\
-Use this as an opportunity to operate on the DOM when the component has been updated. This is also a good place to do network requests as long as you compare the current props to previous props (e.g. a network request may not be necessary if the props have not changed).\
+*You should not call setState() in componentWillUnmount() because the component will never be re-rendered. Once a component instance is unmounted, it will never be mounted again.*
+
+### componentDidUpdate() 
+*componentDidUpdate() is invoked immediately after updating occurs. This method is not called for the initial render.*
+
+Use this as an opportunity to operate on the DOM when the component has been updated. This is also a good place to do network requests as long as you compare the current props to previous props (e.g. a network request may not be necessary if the props have not changed).
+
 **To use this there should be a child parent relationship between classes i.e. the prop which is passed from Parent class to the Child class. If it matches the Child component should not render as there is no update but if it doesn't match then the component should render**.\
-this is done by using **prevProps.number !== this.props.number** -- number is the prop passed to the child and the component should render.\
+this is done by using **prevProps.number !== this.props.number** -- number is the prop passed to the child and the component should render.
 
 *rarely used--*
 
-#### shouldComponentUpdate()
-*Here also child parent relationship between classes should be maintained.*\
-Use shouldComponentUpdate() to let React know if a **component’s output is not affected by the current change in state or props**. The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.\
-shouldComponentUpdate() is invoked before rendering when new props or state are being received. **Defaults to true.** This method is not called for the initial render or when forceUpdate() is used.\
-*componentDidUpdate() and render() will not be invoked if shouldComponentUpdate() returns false*.\
+### shouldComponentUpdate()
+*Here also child parent relationship between classes should be maintained.*
 
-#### getSnapshotBeforeUpdate()
-*Here also child parent relationship between classes should be maintained.*\
+Use shouldComponentUpdate() to let React know if a **component’s output is not affected by the current change in state or props**. The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.
+
+shouldComponentUpdate() is invoked before rendering when new props or state are being received. **Defaults to true.** This method is not called for the initial render or when forceUpdate() is used.
+
+*componentDidUpdate() and render() will not be invoked if shouldComponentUpdate() returns false*.
+
+### getSnapshotBeforeUpdate()
+*Here also child parent relationship between classes should be maintained.*
+
 getSnapshotBeforeUpdate() is invoked right before the most recently rendered output is committed to e.g. the DOM. It **enables your component to capture some information from the DOM (e.g. scroll position) before it is potentially changed.** Any value returned by this lifecycle method will be passed as a parameter to componentDidUpdate() as **snapshot**.\
 It is uncommon to use but can be used for UI.\
-A snapshot value **(or null)** should be returned.\
+A snapshot value **(or null)** should be returned.
 
-#### static getDerivedStateFromProps()
-getDerivedStateFromProps is invoked right before calling the render method, both on the initial mount and on subsequent updates. **It should return an object to update the state, or null to update nothing.**\
-*This method exists where the state depends on changes in props over time, it allows us to copy data from props to the state*.\
+### static getDerivedStateFromProps()
+getDerivedStateFromProps is invoked right before calling the render method, both on the initial mount and on subsequent updates. **It should return an object to update the state, or null to update nothing.**
+
+*This method exists where the state depends on changes in props over time,**it allows us to copy data from props to the state***.
+
 use cases -- 
 - **re-compute some data only when a prop changes**
 - **reset some state when a prop changes**
 
-#### componentDidCatch() 
-This lifecycle is invoked **after an error has been thrown by a descendant component**. It receives two parameters:\
+### componentDidCatch() 
+This lifecycle is invoked **after an error has been thrown by a descendant component**. It receives two parameters:
 - **error** - The error that was thrown.
 - **info** - An object with a componentStack key containing information about which component threw the error.
-componentDidCatch() is called during the “commit” phase, so side-effects are permitted. It should be used for things like *logging errors*.\
-*here Error Component insertd in DOM if showErrorComponent is true. This gets detected by this lifecycle method and an error is thrown into the state*.\
+
+componentDidCatch() is called during the “commit” phase, so side-effects are permitted. It should be used for things like *logging errors*.
+
+*here Error Component insertd in DOM if showErrorComponent is true. This gets detected by this lifecycle method and an error is thrown into the state*.
 
 ## Available Scripts
 
