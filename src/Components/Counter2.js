@@ -26,7 +26,7 @@ export default function Counter2() {
 
     return (
         <div>
-            <h2>Functional Component LifeCycle</h2>
+            <h2>Functional based Component LifeCycle</h2>
             <div>
                 <button class='methodbtn' onClick={() => setShowComponent(!showComponent)}>Show/Hide Counter</button>
                 <button class='methodbtn' onClick={() => setCount(Number.parseInt(Math.random() * 100))}>Set Counter</button>
