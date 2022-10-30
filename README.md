@@ -13,13 +13,16 @@ Documentation: [react-lifecycle-class-methods/](https://reactjs.org/docs/react-c
 
 ### componentDidMount() 
 Used to render component for the **first time.**\
-**This is only called when the component is added to the DOM.**\
-This method is a good place to set up any subscriptions. If you do that, don’t forget to unsubscribe in componentWillUnmount().\
-You should not call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen. This guarantees that even though the render() will be called twice in this case, the user won’t see the intermediate state.\
+**This is only called when the component is added to the DOM.**
+
+This method is a good place to set up any subscriptions. If you do that, don’t forget to unsubscribe in componentWillUnmount().
+
+You should not call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen. This guarantees that even though the render() will be called twice in this case, the user won’t see the intermediate state.
+
 If you want to call setState() then use condition or setTimeout().
 
 ### constructor() 
-*If you don’t initialize state and you don’t bind methods, you don’t need to implement a constructor for your React component.*\
+*If you don’t initialize state and you don’t bind methods, you don’t need to implement a constructor for your React component.*
 
 It is called **before mouting** (before componentDidMount()).\
 React constructors are only used for two purposes -- 
@@ -79,6 +82,25 @@ This lifecycle is invoked **after an error has been thrown by a descendant compo
 componentDidCatch() is called during the “commit” phase, so side-effects are permitted. It should be used for things like *logging errors*.
 
 *here Error Component insertd in DOM if showErrorComponent is true. This gets detected by this lifecycle method and an error is thrown into the state*.
+
+## React Component LifeCycle (using Functional based Hooks)
+
+Documentation: [react-lifecycle--using-hooks/](https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects)
+
+*following hooks are used:*
+
+### useState
+**useState is a Hook that lets you add React state to function components.**
+
+It returns a pair of values: the current state and a function that updates it. This is why we write /
+**const [count, setCount] = useState()**
+
+### useEffect
+*The Hook lets you perform side effects in function components. Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.*
+
+**useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined.**
+
+useEffect do run after every render. By default, it runs both after the first render and after every update. But it can be modified to achive mounting, updating and unmounting.
 
 ## Available Scripts
 

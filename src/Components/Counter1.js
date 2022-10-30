@@ -2,10 +2,23 @@ import React, { Component } from 'react'
 
 class Count extends Component {
     // only re-render when value e either incremented or decremented i.e previous value !== new value
-    componentDidUpdate(prevProps, prevState) {
+    
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('Get Snapshot Before Update');
+        if (this.props.number < 0) {
+            return 0
+        }
+        return null
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
         // console.log(prevProps.number, this.props.number);
+        if (snapshot !== null) {
+            this.props.number = snapshot
+        }
         if (prevProps.number !== this.props.number) {
             console.log('Component Updated') 
+            document.title = `Counter: ${this.props.number}`;
         }
     }
 
@@ -57,11 +70,6 @@ export default class Counter1 extends Component {
         }
         console.log('Should Component Update - RENDER');
         return true
-    }
-
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log('Get Snapshot Before Update');
-        return null
     }
 
     render() {

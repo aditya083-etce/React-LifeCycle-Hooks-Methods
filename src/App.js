@@ -53,8 +53,7 @@ export default class App extends Component {
             : null
           }
           {this.state.mountfunctional ?
-            <Counter2
-              num={5} />
+            <Counter2 />
             : null
           }
         </header>
