@@ -32,7 +32,6 @@ export default class Counter1 extends Component {
         this.decreaseCnt = () => { this.setState({ count: this.state.count - 1 }) }
     }
 
-    // allow to copy from props to the state
     static getDerivedStateFromProps(props, state) {
         if (props.seed && state.seed !== props.seed) {
             return {
